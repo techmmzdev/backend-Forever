@@ -1,0 +1,56 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id           Int        @id @default(autoincrement())
+  sku          String     @unique
+  alias        String
+  brand        String?
+  categoryId   Int
+  currentStock Int        @default(0)
+  createdAt    DateTime   @default(now())
+  movements    Movement[]
+  category     Category   @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Movement {
+  id           Int          @id @default(autoincrement())
+  productId    Int
+  type         MovementType
+  quantity     Int
+  observations String?
+  staffName    String
+  receivedBy   String?
+  createdAt    DateTime     @default(now())
+  product      Product      @relation(fields: [productId], references: [id])
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  role     UserRole
+}
+
+enum MovementType {
+  INGRESO
+  SALIDA
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
