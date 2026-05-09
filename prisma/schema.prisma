@@ -8,6 +8,23 @@ datasource db {
   provider = "postgresql"
 }
 
+enum MovementType {
+  INGRESO
+  SALIDA
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  role     UserRole
+}
+
 model Product {
   id           Int        @id @default(autoincrement())
   sku          String     @unique
@@ -15,6 +32,7 @@ model Product {
   brand        String?
   categoryId   Int
   currentStock Int        @default(0)
+  imageUrl     String?
   createdAt    DateTime   @default(now())
   movements    Movement[]
   category     Category   @relation(fields: [categoryId], references: [id])
@@ -36,21 +54,4 @@ model Movement {
   receivedBy   String?
   createdAt    DateTime     @default(now())
   product      Product      @relation(fields: [productId], references: [id])
-}
-
-model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  password String
-  role     UserRole
-}
-
-enum MovementType {
-  INGRESO
-  SALIDA
-}
-
-enum UserRole {
-  ADMIN
-  STAFF
 }

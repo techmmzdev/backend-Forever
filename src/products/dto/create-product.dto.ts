@@ -20,4 +20,8 @@ export class CreateProductDto {
   @IsOptional()
   @Min(0, { message: 'El stock no puede ser negativo' })
   currentStock?: number;
+
+  @IsInt()
+  @IsOptional()
+  imageUrl?: string;
 }

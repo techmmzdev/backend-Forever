@@ -18,4 +18,8 @@ export class UpdateProductDto {
   @IsInt()
   @IsOptional()
   categoryId?: number;
+
+  @IsInt()
+  @IsOptional()
+  imageUrl?: string;
 }
