@@ -15,29 +15,40 @@ export class UsersService {
     });
   }
 
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
   async findAll() {
     return this.prisma.user.findMany({
+      where: { isActive: true },
       select: {
         id: true,
         username: true,
+        email: true,
         role: true,
+        isActive: true,
+        createdAt: true,
       },
-      orderBy: {
-        id: 'desc',
-      },
+      orderBy: { id: 'desc' },
     });
   }
 
   async create(
     username: string,
+    email: string,
     hashedPassword: string,
     role: 'ADMIN' | 'STAFF',
   ) {
     return this.prisma.user.create({
       data: {
         username,
+        email,
         password: hashedPassword,
         role,
+        isActive: true,
       },
     });
   }
@@ -52,12 +63,6 @@ export class UsersService {
   ) {
     const updateData = { ...data };
 
-    // SI VIENE CONTRASEÑA, LA ENCRIPTAMOS
-    // if (updateData.password) {
-    //   const salt = await bcrypt.genSalt();
-    //   updateData.password = await bcrypt.hash(updateData.password, salt);
-    // }
-
     return this.prisma.user.update({
       where: { id },
       data: updateData, // Usamos la data procesada
@@ -65,23 +70,20 @@ export class UsersService {
   }
 
   async delete(id: number, currentUserId: number) {
-    // 1. Evitar que se elimine a sí mismo
     if (id === currentUserId) {
       throw new ForbiddenException(
         'No puedes eliminar tu propia cuenta de administrador.',
       );
     }
 
-    // 2. Verificar si el usuario existe antes de borrar
     const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
       throw new NotFoundException('Usuario no encontrado.');
     }
 
-    // 3. (Opcional) Evitar eliminar al último ADMIN
     if (user.role === 'ADMIN') {
       const adminCount = await this.prisma.user.count({
-        where: { role: 'ADMIN' },
+        where: { role: 'ADMIN', isActive: true },
       });
       if (adminCount <= 1) {
         throw new ForbiddenException(
@@ -90,8 +92,10 @@ export class UsersService {
       }
     }
 
-    return this.prisma.user.delete({
+    // Soft delete
+    return this.prisma.user.update({
       where: { id },
+      data: { isActive: false },
     });
   }
 }

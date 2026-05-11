@@ -12,20 +12,28 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+
+import { FileInterceptor } from '@nestjs/platform-express';
+
 import { ProductsService } from './products.service';
+import { FilesService } from '@/files/files.service';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { RolesGuard } from '@/auth/roles.guard';
 import { Roles } from '@/auth/roles.decorator';
+
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { extname } from 'path';
-import { diskStorage } from 'multer';
-import { FileInterceptor } from '@nestjs/platform-express';
+
+import { multerConfig } from '@/files/multer.config';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
 export class ProductsController {
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private filesService: FilesService,
+  ) {}
 
   @Get()
   findAll() {
@@ -39,10 +47,7 @@ export class ProductsController {
 
   @Roles('ADMIN')
   @Post()
-  create(
-    @Body()
-    body: CreateProductDto,
-  ) {
+  create(@Body() body: CreateProductDto) {
     return this.productsService.create(body);
   }
 
@@ -50,46 +55,25 @@ export class ProductsController {
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body()
-    body: UpdateProductDto,
+    @Body() body: UpdateProductDto,
   ) {
     return this.productsService.update(id, body);
   }
 
   @Roles('ADMIN')
   @Post(':id/image')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(null, `product-${uniqueSuffix}${extname(file.originalname)}`);
-        },
-      }),
-      fileFilter: (req, file, cb) => {
-        const allowed = ['.jpg', '.jpeg', '.png', '.webp'];
-        if (!allowed.includes(extname(file.originalname).toLowerCase())) {
-          return cb(
-            new BadRequestException(
-              'Solo se permiten imágenes jpg, jpeg, png, webp',
-            ),
-            false,
-          );
-        }
-        cb(null, true);
-      },
-      limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
-    }),
-  )
-  uploadImage(
+  @UseInterceptors(FileInterceptor('image', multerConfig))
+  async uploadImage(
     @Param('id', ParseIntPipe) id: number,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (!file) throw new BadRequestException('No se subió ninguna imagen');
-    const imageUrl = `/uploads/${file.filename}`;
-    return this.productsService.updateImage(id, imageUrl);
+    if (!file) {
+      throw new BadRequestException('No se subió ninguna imagen');
+    }
+
+    const result = await this.filesService.handleUploadedFile(file);
+
+    return this.productsService.updateImage(id, result.path);
   }
 
   @Roles('ADMIN')

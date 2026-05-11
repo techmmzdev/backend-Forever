@@ -7,7 +7,12 @@ export class MovementsService {
 
   async findAll() {
     return this.prisma.movement.findMany({
-      include: { product: true },
+      include: {
+        product: true,
+        user: {
+          select: { id: true, username: true, role: true },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -15,17 +20,22 @@ export class MovementsService {
   async findByProduct(productId: number) {
     return this.prisma.movement.findMany({
       where: { productId },
-      include: { product: true },
+      include: {
+        product: true,
+        user: {
+          select: { id: true, username: true, role: true },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
 
   async create(data: {
     productId: number;
+    userId: number;
     type: 'INGRESO' | 'SALIDA';
     quantity: number;
     observations?: string;
-    staffName: string;
     receivedBy?: string;
   }) {
     const product = await this.prisma.product.findUnique({
@@ -42,18 +52,22 @@ export class MovementsService {
       throw new Error('Stock insuficiente para realizar la salida');
     }
 
-    await this.prisma.$transaction([
-      this.prisma.movement.create({ data }),
+    const [movement] = await this.prisma.$transaction([
+      this.prisma.movement.create({
+        data,
+        include: {
+          product: true,
+          user: {
+            select: { id: true, username: true, role: true },
+          },
+        },
+      }),
       this.prisma.product.update({
         where: { id: data.productId },
         data: { currentStock: newStock },
       }),
     ]);
 
-    return this.prisma.movement.findFirst({
-      where: { productId: data.productId },
-      include: { product: true },
-      orderBy: { createdAt: 'desc' },
-    });
+    return movement;
   }
 }

@@ -34,7 +34,7 @@ export class CategoriesController {
   @Roles('ADMIN')
   @Post()
   create(@Body() body: CreateCategoryDto) {
-    return this.categoriesService.create(body.name);
+    return this.categoriesService.create(body.name, body.description);
   }
 
   @Roles('ADMIN')
@@ -43,7 +43,7 @@ export class CategoriesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, body.name);
+    return this.categoriesService.update(id, body.name, body.description);
   }
 
   @Roles('ADMIN')

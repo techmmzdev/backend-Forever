@@ -11,6 +11,10 @@ export class CreateProductDto {
 
   @IsString()
   @IsOptional()
+  description?: string;
+
+  @IsString()
+  @IsOptional()
   brand?: string;
 
   @IsInt({ message: 'El categoryId debe ser un número entero' })
@@ -22,6 +26,16 @@ export class CreateProductDto {
   currentStock?: number;
 
   @IsInt()
+  @IsOptional()
+  @Min(0)
+  minStock?: number;
+
+  @IsInt()
+  @IsOptional()
+  @Min(1)
+  unitsPerBox?: number;
+
+  @IsString()
   @IsOptional()
   imageUrl?: string;
 }

@@ -4,13 +4,17 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
+
 import { Reflector } from '@nestjs/core';
 
+import { UserRole } from './auth.types';
+
 interface AuthenticatedRequest {
-  user: {
+  user?: {
     id: number;
     username: string;
-    role: 'ADMIN' | 'STAFF';
+    email: string;
+    role: UserRole;
   };
 }
 
@@ -19,16 +23,19 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const roles = this.reflector.get<('ADMIN' | 'STAFF')[]>(
-      'roles',
-      context.getHandler(),
-    );
+    const roles = this.reflector.get<UserRole[]>('roles', context.getHandler());
 
-    if (!roles) return true;
+    if (!roles) {
+      return true;
+    }
 
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
 
     const user = request.user;
+
+    if (!user) {
+      throw new ForbiddenException('Usuario no autenticado');
+    }
 
     if (!roles.includes(user.role)) {
       throw new ForbiddenException(

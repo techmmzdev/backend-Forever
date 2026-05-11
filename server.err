@@ -1,0 +1,15 @@
+Error al iniciar la aplicación: Error: listen EADDRINUSE: address already in use :::7500
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at ExpressAdapter.listen (C:\dev\techmmz-org\dev\Forever_Kids\backend\node_modules\@nestjs\platform-express\adapters\express-adapter.js:115:32)
+    at C:\dev\techmmz-org\dev\Forever_Kids\backend\node_modules\@nestjs\core\nest-application.js:188:30
+    at new Promise (<anonymous>)
+    at NestApplication.listen (C:\dev\techmmz-org\dev\Forever_Kids\backend\node_modules\@nestjs\core\nest-application.js:178:16)
+    at async bootstrap (C:\dev\techmmz-org\dev\Forever_Kids\backend\src\main.ts:69:3) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 7500
+}

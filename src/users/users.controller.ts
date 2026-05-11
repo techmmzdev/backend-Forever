@@ -27,6 +27,7 @@ interface RequestWithUser extends Request {
   user: {
     id: number;
     username: string;
+    email: string;
     role: string;
   };
 }
@@ -50,7 +51,12 @@ export class UsersController {
   ) {
     const hashedPassword = await bcrypt.hash(body.password, 10);
 
-    return this.usersService.create(body.username, hashedPassword, body.role);
+    return this.usersService.create(
+      body.username,
+      body.email,
+      hashedPassword,
+      body.role,
+    );
   }
 
   @Put(':id')

@@ -2,10 +2,11 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Param,
-  ParseIntPipe,
+  Body,
   UseGuards,
+  ParseIntPipe,
+  Request,
 } from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
@@ -13,10 +14,15 @@ import { RolesGuard } from '@/auth/roles.guard';
 import { Roles } from '@/auth/roles.decorator';
 import { CreateMovementDto } from './dto/create-movement.dto';
 
+interface AuthRequest extends Request {
+  user: { id: number; username: string; role: 'ADMIN' | 'STAFF' };
+}
+
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('movements')
 export class MovementsController {
   constructor(private movementsService: MovementsService) {}
+
   @Get()
   findAll() {
     return this.movementsService.findAll();
@@ -29,10 +35,10 @@ export class MovementsController {
 
   @Roles('ADMIN', 'STAFF')
   @Post()
-  create(
-    @Body()
-    body: CreateMovementDto,
-  ) {
-    return this.movementsService.create(body);
+  create(@Body() body: CreateMovementDto, @Request() req: AuthRequest) {
+    return this.movementsService.create({
+      ...body,
+      userId: req.user.id,
+    });
   }
 }

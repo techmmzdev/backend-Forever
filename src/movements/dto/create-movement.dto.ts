@@ -1,17 +1,11 @@
-import {
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  IsEnum,
-  IsOptional,
-  Min,
-} from 'class-validator';
+import { IsInt, IsString, IsEnum, IsOptional, Min } from 'class-validator';
+import { MovementType } from '@generated/prisma/enums';
 
 export class CreateMovementDto {
   @IsInt({ message: 'El productId debe ser un número entero' })
   productId!: number;
 
-  @IsEnum(['INGRESO', 'SALIDA'], {
+  @IsEnum(MovementType, {
     message: 'El tipo debe ser INGRESO o SALIDA',
   })
   type!: 'INGRESO' | 'SALIDA';
@@ -23,10 +17,6 @@ export class CreateMovementDto {
   @IsString()
   @IsOptional()
   observations?: string;
-
-  @IsString()
-  @IsNotEmpty({ message: 'El nombre del staff no puede estar vacío' })
-  staffName!: string;
 
   @IsString()
   @IsOptional()

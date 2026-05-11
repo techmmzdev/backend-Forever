@@ -1,5 +1,5 @@
 import { PrismaService } from '@/config/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class CategoriesService {
@@ -7,32 +7,50 @@ export class CategoriesService {
 
   async findAll() {
     return this.prisma.category.findMany({
+      where: { isActive: true },
       include: { products: false },
     });
   }
 
   async findOne(id: number) {
-    return this.prisma.category.findUnique({
+    const category = await this.prisma.category.findUnique({
       where: { id },
     });
+
+    if (!category) {
+      throw new NotFoundException('Categoría no encontrada');
+    }
+
+    return category;
   }
 
-  async create(name: string) {
+  async create(name: string, description?: string) {
     return this.prisma.category.create({
-      data: { name },
+      data: { name, description },
     });
   }
 
-  async update(id: number, name: string) {
+  async update(id: number, name: string, description?: string) {
+    const category = await this.prisma.category.findUnique({ where: { id } });
+
+    if (!category) {
+      throw new NotFoundException('Categoría no encontrada');
+    }
+
     return this.prisma.category.update({
       where: { id },
-      data: { name },
+      data: { name, description },
     });
   }
 
   async remove(id: number) {
-    return this.prisma.category.delete({
+    const category = await this.prisma.category.findUnique({ where: { id } });
+    if (!category) throw new NotFoundException('Categoría no encontrada');
+
+    // Soft delete
+    return this.prisma.category.update({
       where: { id },
+      data: { isActive: false },
     });
   }
 }

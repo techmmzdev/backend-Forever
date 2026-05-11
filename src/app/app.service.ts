@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
+  getWelcome(): string {
     const status = {
       name: 'Bienvenido al Warehouse Management System',
       version: '1.0.0',
@@ -16,6 +16,7 @@ export class AppService {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${status.name} | API</title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
         <style>
           body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
