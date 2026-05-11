@@ -25,13 +25,18 @@ export class FilesService {
   }
 
   async handleUploadedFile(file: Express.Multer.File) {
+    this.ensureUploadsDir();
+
     if (this.isProduction) {
-      const url = await this.uploadToCloudinary(file.path);
-      fs.unlinkSync(file.path);
-      return { filename: file.filename, path: url };
+      try {
+        const url = await this.uploadToCloudinary(file.path);
+        fs.unlinkSync(file.path);
+        return { filename: file.filename, path: url };
+      } catch (error) {
+        console.error('Cloudinary falló, guardando localmente:', error);
+      }
     }
 
-    this.ensureUploadsDir();
     return { filename: file.filename, path: `/uploads/${file.filename}` };
   }
 
