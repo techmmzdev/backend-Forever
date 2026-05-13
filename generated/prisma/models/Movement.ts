@@ -254,6 +254,7 @@ export type MovementWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Movement"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  colors?: Prisma.MovementColorListRelationFilter
 }
 
 export type MovementOrderByWithRelationInput = {
@@ -267,6 +268,7 @@ export type MovementOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  colors?: Prisma.MovementColorOrderByRelationAggregateInput
 }
 
 export type MovementWhereUniqueInput = Prisma.AtLeast<{
@@ -283,6 +285,7 @@ export type MovementWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Movement"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  colors?: Prisma.MovementColorListRelationFilter
 }, "id">
 
 export type MovementOrderByWithAggregationInput = {
@@ -323,6 +326,7 @@ export type MovementCreateInput = {
   createdAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutMovementsInput
   user: Prisma.UserCreateNestedOneWithoutMovementsInput
+  colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
 }
 
 export type MovementUncheckedCreateInput = {
@@ -334,6 +338,7 @@ export type MovementUncheckedCreateInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
 export type MovementUpdateInput = {
@@ -344,6 +349,7 @@ export type MovementUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
+  colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementUncheckedUpdateInput = {
@@ -355,6 +361,7 @@ export type MovementUncheckedUpdateInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementCreateManyInput = {
@@ -442,6 +449,11 @@ export type MovementSumOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
+}
+
+export type MovementScalarRelationFilter = {
+  is?: Prisma.MovementWhereInput
+  isNot?: Prisma.MovementWhereInput
 }
 
 export type MovementCreateNestedManyWithoutUserInput = {
@@ -532,6 +544,20 @@ export type EnumMovementTypeFieldUpdateOperationsInput = {
   set?: $Enums.MovementType
 }
 
+export type MovementCreateNestedOneWithoutColorsInput = {
+  create?: Prisma.XOR<Prisma.MovementCreateWithoutColorsInput, Prisma.MovementUncheckedCreateWithoutColorsInput>
+  connectOrCreate?: Prisma.MovementCreateOrConnectWithoutColorsInput
+  connect?: Prisma.MovementWhereUniqueInput
+}
+
+export type MovementUpdateOneRequiredWithoutColorsNestedInput = {
+  create?: Prisma.XOR<Prisma.MovementCreateWithoutColorsInput, Prisma.MovementUncheckedCreateWithoutColorsInput>
+  connectOrCreate?: Prisma.MovementCreateOrConnectWithoutColorsInput
+  upsert?: Prisma.MovementUpsertWithoutColorsInput
+  connect?: Prisma.MovementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MovementUpdateToOneWithWhereWithoutColorsInput, Prisma.MovementUpdateWithoutColorsInput>, Prisma.MovementUncheckedUpdateWithoutColorsInput>
+}
+
 export type MovementCreateWithoutUserInput = {
   type: $Enums.MovementType
   quantity?: number
@@ -539,6 +565,7 @@ export type MovementCreateWithoutUserInput = {
   receivedBy?: string | null
   createdAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutMovementsInput
+  colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
 }
 
 export type MovementUncheckedCreateWithoutUserInput = {
@@ -549,6 +576,7 @@ export type MovementUncheckedCreateWithoutUserInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
 export type MovementCreateOrConnectWithoutUserInput = {
@@ -598,6 +626,7 @@ export type MovementCreateWithoutProductInput = {
   receivedBy?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMovementsInput
+  colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
 }
 
 export type MovementUncheckedCreateWithoutProductInput = {
@@ -608,6 +637,7 @@ export type MovementUncheckedCreateWithoutProductInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
 export type MovementCreateOrConnectWithoutProductInput = {
@@ -636,6 +666,64 @@ export type MovementUpdateManyWithWhereWithoutProductInput = {
   data: Prisma.XOR<Prisma.MovementUpdateManyMutationInput, Prisma.MovementUncheckedUpdateManyWithoutProductInput>
 }
 
+export type MovementCreateWithoutColorsInput = {
+  type: $Enums.MovementType
+  quantity?: number
+  observations?: string | null
+  receivedBy?: string | null
+  createdAt?: Date | string
+  product: Prisma.ProductCreateNestedOneWithoutMovementsInput
+  user: Prisma.UserCreateNestedOneWithoutMovementsInput
+}
+
+export type MovementUncheckedCreateWithoutColorsInput = {
+  id?: number
+  productId: number
+  userId: number
+  type: $Enums.MovementType
+  quantity?: number
+  observations?: string | null
+  receivedBy?: string | null
+  createdAt?: Date | string
+}
+
+export type MovementCreateOrConnectWithoutColorsInput = {
+  where: Prisma.MovementWhereUniqueInput
+  create: Prisma.XOR<Prisma.MovementCreateWithoutColorsInput, Prisma.MovementUncheckedCreateWithoutColorsInput>
+}
+
+export type MovementUpsertWithoutColorsInput = {
+  update: Prisma.XOR<Prisma.MovementUpdateWithoutColorsInput, Prisma.MovementUncheckedUpdateWithoutColorsInput>
+  create: Prisma.XOR<Prisma.MovementCreateWithoutColorsInput, Prisma.MovementUncheckedCreateWithoutColorsInput>
+  where?: Prisma.MovementWhereInput
+}
+
+export type MovementUpdateToOneWithWhereWithoutColorsInput = {
+  where?: Prisma.MovementWhereInput
+  data: Prisma.XOR<Prisma.MovementUpdateWithoutColorsInput, Prisma.MovementUncheckedUpdateWithoutColorsInput>
+}
+
+export type MovementUpdateWithoutColorsInput = {
+  type?: Prisma.EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
+}
+
+export type MovementUncheckedUpdateWithoutColorsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  productId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumMovementTypeFieldUpdateOperationsInput | $Enums.MovementType
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type MovementCreateManyUserInput = {
   id?: number
   productId: number
@@ -653,6 +741,7 @@ export type MovementUpdateWithoutUserInput = {
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
+  colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementUncheckedUpdateWithoutUserInput = {
@@ -663,6 +752,7 @@ export type MovementUncheckedUpdateWithoutUserInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementUncheckedUpdateManyWithoutUserInput = {
@@ -692,6 +782,7 @@ export type MovementUpdateWithoutProductInput = {
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
+  colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementUncheckedUpdateWithoutProductInput = {
@@ -702,6 +793,7 @@ export type MovementUncheckedUpdateWithoutProductInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
 export type MovementUncheckedUpdateManyWithoutProductInput = {
@@ -715,6 +807,35 @@ export type MovementUncheckedUpdateManyWithoutProductInput = {
 }
 
 
+/**
+ * Count Type MovementCountOutputType
+ */
+
+export type MovementCountOutputType = {
+  colors: number
+}
+
+export type MovementCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  colors?: boolean | MovementCountOutputTypeCountColorsArgs
+}
+
+/**
+ * MovementCountOutputType without action
+ */
+export type MovementCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MovementCountOutputType
+   */
+  select?: Prisma.MovementCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MovementCountOutputType without action
+ */
+export type MovementCountOutputTypeCountColorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MovementColorWhereInput
+}
+
 
 export type MovementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -727,6 +848,8 @@ export type MovementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  colors?: boolean | Prisma.Movement$colorsArgs<ExtArgs>
+  _count?: boolean | Prisma.MovementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movement"]>
 
 export type MovementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -770,6 +893,8 @@ export type MovementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type MovementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  colors?: boolean | Prisma.Movement$colorsArgs<ExtArgs>
+  _count?: boolean | Prisma.MovementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MovementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -785,6 +910,7 @@ export type $MovementPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     product: Prisma.$ProductPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
+    colors: Prisma.$MovementColorPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1191,6 +1317,7 @@ export interface Prisma__MovementClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  colors<T extends Prisma.Movement$colorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movement$colorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovementColorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1626,6 +1753,30 @@ export type MovementDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Movements to delete.
    */
   limit?: number
+}
+
+/**
+ * Movement.colors
+ */
+export type Movement$colorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MovementColor
+   */
+  select?: Prisma.MovementColorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MovementColor
+   */
+  omit?: Prisma.MovementColorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MovementColorInclude<ExtArgs> | null
+  where?: Prisma.MovementColorWhereInput
+  orderBy?: Prisma.MovementColorOrderByWithRelationInput | Prisma.MovementColorOrderByWithRelationInput[]
+  cursor?: Prisma.MovementColorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MovementColorScalarFieldEnum | Prisma.MovementColorScalarFieldEnum[]
 }
 
 /**

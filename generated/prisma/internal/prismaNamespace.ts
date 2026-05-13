@@ -388,6 +388,8 @@ export const ModelName = {
   Category: 'Category',
   Product: 'Product',
   Movement: 'Movement',
+  ProductColor: 'ProductColor',
+  MovementColor: 'MovementColor',
   RolePermission: 'RolePermission'
 } as const
 
@@ -404,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "category" | "product" | "movement" | "rolePermission"
+    modelProps: "user" | "category" | "product" | "movement" | "productColor" | "movementColor" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,6 +706,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProductColor: {
+      payload: Prisma.$ProductColorPayload<ExtArgs>
+      fields: Prisma.ProductColorFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProductColorFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProductColorFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        findFirst: {
+          args: Prisma.ProductColorFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProductColorFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        findMany: {
+          args: Prisma.ProductColorFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>[]
+        }
+        create: {
+          args: Prisma.ProductColorCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        createMany: {
+          args: Prisma.ProductColorCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProductColorCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>[]
+        }
+        delete: {
+          args: Prisma.ProductColorDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        update: {
+          args: Prisma.ProductColorUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProductColorDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProductColorUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProductColorUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProductColorUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductColorPayload>
+        }
+        aggregate: {
+          args: Prisma.ProductColorAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProductColor>
+        }
+        groupBy: {
+          args: Prisma.ProductColorGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductColorGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProductColorCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductColorCountAggregateOutputType> | number
+        }
+      }
+    }
+    MovementColor: {
+      payload: Prisma.$MovementColorPayload<ExtArgs>
+      fields: Prisma.MovementColorFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MovementColorFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MovementColorFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        findFirst: {
+          args: Prisma.MovementColorFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MovementColorFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        findMany: {
+          args: Prisma.MovementColorFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>[]
+        }
+        create: {
+          args: Prisma.MovementColorCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        createMany: {
+          args: Prisma.MovementColorCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MovementColorCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>[]
+        }
+        delete: {
+          args: Prisma.MovementColorDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        update: {
+          args: Prisma.MovementColorUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        deleteMany: {
+          args: Prisma.MovementColorDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MovementColorUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MovementColorUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>[]
+        }
+        upsert: {
+          args: Prisma.MovementColorUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovementColorPayload>
+        }
+        aggregate: {
+          args: Prisma.MovementColorAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMovementColor>
+        }
+        groupBy: {
+          args: Prisma.MovementColorGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovementColorGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MovementColorCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovementColorCountAggregateOutputType> | number
+        }
+      }
+    }
     RolePermission: {
       payload: Prisma.$RolePermissionPayload<ExtArgs>
       fields: Prisma.RolePermissionFieldRefs
@@ -874,6 +1024,27 @@ export const MovementScalarFieldEnum = {
 } as const
 
 export type MovementScalarFieldEnum = (typeof MovementScalarFieldEnum)[keyof typeof MovementScalarFieldEnum]
+
+
+export const ProductColorScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  name: 'name',
+  hexCode: 'hexCode',
+  currentStock: 'currentStock'
+} as const
+
+export type ProductColorScalarFieldEnum = (typeof ProductColorScalarFieldEnum)[keyof typeof ProductColorScalarFieldEnum]
+
+
+export const MovementColorScalarFieldEnum = {
+  id: 'id',
+  movementId: 'movementId',
+  productColorId: 'productColorId',
+  quantity: 'quantity'
+} as const
+
+export type MovementColorScalarFieldEnum = (typeof MovementColorScalarFieldEnum)[keyof typeof MovementColorScalarFieldEnum]
 
 
 export const RolePermissionScalarFieldEnum = {
@@ -1119,6 +1290,8 @@ export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   product?: Prisma.ProductOmit
   movement?: Prisma.MovementOmit
+  productColor?: Prisma.ProductColorOmit
+  movementColor?: Prisma.MovementColorOmit
   rolePermission?: Prisma.RolePermissionOmit
 }
 

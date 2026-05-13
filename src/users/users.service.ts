@@ -21,9 +21,9 @@ export class UsersService {
     });
   }
 
-  async findAll() {
+  async findAll(includeInactive?: boolean) {
     return this.prisma.user.findMany({
-      where: { isActive: true },
+      where: includeInactive ? {} : { isActive: true },
       select: {
         id: true,
         username: true,
@@ -96,6 +96,26 @@ export class UsersService {
     return this.prisma.user.update({
       where: { id },
       data: { isActive: false },
+    });
+  }
+
+  async restore(id: number) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado.');
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { isActive: true },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+      },
     });
   }
 }

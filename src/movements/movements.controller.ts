@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Param,
   Body,
   UseGuards,
@@ -13,6 +14,7 @@ import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { RolesGuard } from '@/auth/roles.guard';
 import { Roles } from '@/auth/roles.decorator';
 import { CreateMovementDto } from './dto/create-movement.dto';
+import { UpdateMovementDto } from './dto/update-movement.dto';
 
 interface AuthRequest extends Request {
   user: { id: number; username: string; role: 'ADMIN' | 'STAFF' };
@@ -40,5 +42,23 @@ export class MovementsController {
       ...body,
       userId: req.user.id,
     });
+  }
+
+  @Roles('ADMIN', 'STAFF')
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateMovementDto,
+  ) {
+    return this.movementsService.update(id, body);
+  }
+
+  @Roles('ADMIN', 'STAFF')
+  @Post(':id/void')
+  voidMovement(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: AuthRequest,
+  ) {
+    return this.movementsService.voidMovement(id, req.user.id);
   }
 }

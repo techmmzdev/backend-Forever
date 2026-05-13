@@ -60,6 +60,16 @@ export type Product = Prisma.ProductModel
  */
 export type Movement = Prisma.MovementModel
 /**
+ * Model ProductColor
+ * 
+ */
+export type ProductColor = Prisma.ProductColorModel
+/**
+ * Model MovementColor
+ * 
+ */
+export type MovementColor = Prisma.MovementColorModel
+/**
  * Model RolePermission
  * 
  */

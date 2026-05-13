@@ -55,6 +55,8 @@ export const ModelName = {
   Category: 'Category',
   Product: 'Product',
   Movement: 'Movement',
+  ProductColor: 'ProductColor',
+  MovementColor: 'MovementColor',
   RolePermission: 'RolePermission'
 } as const
 
@@ -131,6 +133,27 @@ export const MovementScalarFieldEnum = {
 } as const
 
 export type MovementScalarFieldEnum = (typeof MovementScalarFieldEnum)[keyof typeof MovementScalarFieldEnum]
+
+
+export const ProductColorScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  name: 'name',
+  hexCode: 'hexCode',
+  currentStock: 'currentStock'
+} as const
+
+export type ProductColorScalarFieldEnum = (typeof ProductColorScalarFieldEnum)[keyof typeof ProductColorScalarFieldEnum]
+
+
+export const MovementColorScalarFieldEnum = {
+  id: 'id',
+  movementId: 'movementId',
+  productColorId: 'productColorId',
+  quantity: 'quantity'
+} as const
+
+export type MovementColorScalarFieldEnum = (typeof MovementColorScalarFieldEnum)[keyof typeof MovementColorScalarFieldEnum]
 
 
 export const RolePermissionScalarFieldEnum = {

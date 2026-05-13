@@ -1,4 +1,15 @@
-import { IsString, IsNotEmpty, IsInt, IsOptional, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, IsOptional, Min, ValidateNested, ArrayMaxSize } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class ColorDto {
+  @IsString()
+  @IsNotEmpty({ message: 'El nombre del color no puede estar vacío' })
+  name!: string;
+
+  @IsString()
+  @IsOptional()
+  hexCode?: string;
+}
 
 export class UpdateProductDto {
   @IsString()
@@ -33,4 +44,10 @@ export class UpdateProductDto {
 
   @IsOptional()
   unitsPerBox?: number | null;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ColorDto)
+  @ArrayMaxSize(50)
+  colors?: ColorDto[];
 }

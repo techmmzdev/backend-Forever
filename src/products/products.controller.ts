@@ -7,6 +7,7 @@ import {
   Delete,
   Body,
   ParseIntPipe,
+  Query,
   UseGuards,
   BadRequestException,
   UseInterceptors,
@@ -24,6 +25,7 @@ import { Roles } from '@/auth/roles.decorator';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateColorDto } from './dto/create-color.dto';
 
 import { multerConfig } from '@/files/multer.config';
 
@@ -36,8 +38,8 @@ export class ProductsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query('includeInactive') includeInactive?: string) {
+    return this.productsService.findAll(includeInactive === 'true');
   }
 
   @Get(':id')
@@ -80,5 +82,42 @@ export class ProductsController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
+  }
+
+  @Roles('ADMIN')
+  @Put(':id/restore')
+  restore(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.restore(id);
+  }
+
+  // ─── Colores ────────────────────────────────────────────
+
+  @Get(':id/colors')
+  findColors(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.findColors(id);
+  }
+
+  @Roles('ADMIN')
+  @Post(':id/colors')
+  addColor(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CreateColorDto,
+  ) {
+    return this.productsService.addColor(id, body);
+  }
+
+  @Roles('ADMIN')
+  @Put('colors/:colorId')
+  updateColor(
+    @Param('colorId', ParseIntPipe) colorId: number,
+    @Body() body: CreateColorDto,
+  ) {
+    return this.productsService.updateColor(colorId, body);
+  }
+
+  @Roles('ADMIN')
+  @Delete('colors/:colorId')
+  removeColor(@Param('colorId', ParseIntPipe) colorId: number) {
+    return this.productsService.removeColor(colorId);
   }
 }

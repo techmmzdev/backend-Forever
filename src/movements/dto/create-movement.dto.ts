@@ -1,5 +1,15 @@
-import { IsInt, IsString, IsEnum, IsOptional, Min } from 'class-validator';
+import { IsInt, IsString, IsEnum, IsOptional, Min, ValidateNested, ArrayMinSize } from 'class-validator';
+import { Type } from 'class-transformer';
 import { MovementType } from '@generated/prisma/enums';
+
+class MovementColorDto {
+  @IsInt()
+  productColorId!: number;
+
+  @IsInt()
+  @Min(1)
+  quantity!: number;
+}
 
 export class CreateMovementDto {
   @IsInt({ message: 'El productId debe ser un número entero' })
@@ -21,4 +31,10 @@ export class CreateMovementDto {
   @IsString()
   @IsOptional()
   receivedBy?: string;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => MovementColorDto)
+  @ArrayMinSize(1)
+  colors?: MovementColorDto[];
 }

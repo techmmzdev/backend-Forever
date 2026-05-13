@@ -10,6 +10,7 @@ import {
   UseGuards,
   Req,
   ForbiddenException,
+  Query,
 } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
@@ -39,8 +40,8 @@ export class UsersController {
 
   @Roles('ADMIN')
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query('includeInactive') includeInactive?: string) {
+    return this.usersService.findAll(includeInactive === 'true');
   }
 
   @Roles('ADMIN')
@@ -107,9 +108,15 @@ export class UsersController {
   @Delete(':id')
   remove(
     @Param('id', ParseIntPipe) id: number,
-    @Req() req: RequestWithUser, // Accedemos a la request para obtener el usuario autenticado
+    @Req() req: RequestWithUser,
   ) {
-    const currentUserId = req.user.id; // Asumiendo que tu Passport/JWT guarda el id en req.user
+    const currentUserId = req.user.id;
     return this.usersService.delete(id, currentUserId);
+  }
+
+  @Roles('ADMIN')
+  @Put(':id/restore')
+  restore(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.restore(id);
   }
 }
