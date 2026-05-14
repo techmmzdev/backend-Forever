@@ -102,41 +102,110 @@ export class ProductsService {
       this.filesService.removeFile(product.imageUrl);
     }
 
-    // Manejar colores: reemplazar completamente
     const { colors, ...rest } = data;
 
     const cleanData = Object.fromEntries(
-      Object.entries(rest).filter(([v]) => v !== undefined),
+      Object.entries(rest).filter(([, v]) => v !== undefined),
     );
 
-    let colorsPayload: any = undefined;
     if (colors !== undefined) {
       if (colors.length > 0 && product.currentStock < colors.length) {
         throw new BadRequestException(
           `Stock (${product.currentStock}) debe ser mayor o igual a la cantidad de colores (${colors.length})`,
         );
       }
+
+      const existingColors = await this.prisma.productColor.findMany({
+        where: { productId: id },
+        include: { _count: { select: { movements: true } } },
+      });
+
+      const existingByName = new Map(
+        existingColors.map((c) => [c.name, c]),
+      );
+
       const base =
         colors.length > 0
           ? Math.floor(product.currentStock / colors.length)
           : 0;
       const resto = product.currentStock - base * colors.length;
-      colorsPayload = {
-        deleteMany: {},
-        create: colors.map((c, i) => ({
-          name: c.name,
-          hexCode: c.hexCode ?? null,
-          currentStock: base + (i < resto ? 1 : 0),
-        })),
-      };
+
+      const toDelete: number[] = [];
+      const toZeroStock: number[] = [];
+      const toUpdate: {
+        id: number;
+        hexCode: string | null;
+        currentStock: number;
+      }[] = [];
+      const toCreate: {
+        productId: number;
+        name: string;
+        hexCode: string | null;
+        currentStock: number;
+      }[] = [];
+
+      for (const existing of existingByName.values()) {
+        const idx = colors.findIndex((c) => c.name === existing.name);
+        if (idx !== -1) {
+          toUpdate.push({
+            id: existing.id,
+            hexCode: colors[idx].hexCode ?? null,
+            currentStock: base + (idx < resto ? 1 : 0),
+          });
+        } else if (existing._count.movements > 0) {
+          toZeroStock.push(existing.id);
+        } else {
+          toDelete.push(existing.id);
+        }
+      }
+
+      for (let i = 0; i < colors.length; i++) {
+        if (!existingByName.has(colors[i].name)) {
+          toCreate.push({
+            productId: id,
+            name: colors[i].name,
+            hexCode: colors[i].hexCode ?? null,
+            currentStock: base + (i < resto ? 1 : 0),
+          });
+        }
+      }
+
+      return this.prisma.$transaction(async (tx) => {
+        if (toDelete.length > 0) {
+          await tx.productColor.deleteMany({
+            where: { id: { in: toDelete } },
+          });
+        }
+
+        if (toZeroStock.length > 0) {
+          await tx.productColor.updateMany({
+            where: { id: { in: toZeroStock } },
+            data: { currentStock: 0 },
+          });
+        }
+
+        for (const c of toUpdate) {
+          await tx.productColor.update({
+            where: { id: c.id },
+            data: { hexCode: c.hexCode, currentStock: c.currentStock },
+          });
+        }
+
+        if (toCreate.length > 0) {
+          await tx.productColor.createMany({ data: toCreate });
+        }
+
+        return tx.product.update({
+          where: { id },
+          data: cleanData,
+          include: { category: true, colors: true },
+        });
+      });
     }
 
     return this.prisma.product.update({
       where: { id },
-      data: {
-        ...cleanData,
-        ...(colors !== undefined ? { colors: colorsPayload } : {}),
-      },
+      data: cleanData,
       include: { category: true, colors: true },
     });
   }
