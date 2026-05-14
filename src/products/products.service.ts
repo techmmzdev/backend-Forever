@@ -120,9 +120,7 @@ export class ProductsService {
         include: { _count: { select: { movements: true } } },
       });
 
-      const existingByName = new Map(
-        existingColors.map((c) => [c.name, c]),
-      );
+      const existingByName = new Map(existingColors.map((c) => [c.name, c]));
 
       const base =
         colors.length > 0
@@ -262,8 +260,6 @@ export class ProductsService {
       include: { category: true, colors: true },
     });
   }
-
-
 
   // ─── Colores ────────────────────────────────────────────
 
