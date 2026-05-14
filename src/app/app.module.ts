@@ -20,6 +20,7 @@ import { RolesModule } from '@/roles/roles.module';
     LoggerModule.forRoot({
       pinoHttp: {
         level: process.env.LOG_LEVEL || 'info',
+        redact: ['req.headers.authorization', 'req.headers.cookie'],
         transport:
           process.env.NODE_ENV !== 'production'
             ? { target: 'pino-pretty' }
