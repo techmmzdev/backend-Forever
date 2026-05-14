@@ -14,6 +14,7 @@ import { MovementsModule } from '@/movements/movements.module';
 import { FilesModule } from '@/files/files.module';
 import { HealthModule } from '@/health/health.module';
 import { RolesModule } from '@/roles/roles.module';
+import { DashboardModule } from '@/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { RolesModule } from '@/roles/roles.module';
     FilesModule,
     HealthModule,
     RolesModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [

@@ -52,3 +52,8 @@ export type MovementColor = Prisma.MovementColorModel
  * 
  */
 export type RolePermission = Prisma.RolePermissionModel
+/**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel

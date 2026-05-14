@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '@/config/prisma.service';
 import { FilesService } from '@/files/files.service';
 
@@ -101,7 +106,7 @@ export class ProductsService {
     const { colors, ...rest } = data;
 
     const cleanData = Object.fromEntries(
-      Object.entries(rest).filter(([_, v]) => v !== undefined),
+      Object.entries(rest).filter(([v]) => v !== undefined),
     );
 
     let colorsPayload: any = undefined;
@@ -189,6 +194,8 @@ export class ProductsService {
     });
   }
 
+
+
   // ─── Colores ────────────────────────────────────────────
 
   async findColors(productId: number) {
@@ -203,10 +210,7 @@ export class ProductsService {
     });
   }
 
-  async addColor(
-    productId: number,
-    data: { name: string; hexCode?: string },
-  ) {
+  async addColor(productId: number, data: { name: string; hexCode?: string }) {
     const product = await this.prisma.product.findUnique({
       where: { id: productId },
     });
@@ -224,10 +228,7 @@ export class ProductsService {
     });
   }
 
-  async updateColor(
-    colorId: number,
-    data: { name: string; hexCode?: string },
-  ) {
+  async updateColor(colorId: number, data: { name: string; hexCode?: string }) {
     const color = await this.prisma.productColor.findUnique({
       where: { id: colorId },
     });

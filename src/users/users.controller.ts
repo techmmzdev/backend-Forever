@@ -85,10 +85,12 @@ export class UsersController {
     // Esto coincide con el parámetro que espera usersService.update
     const data: {
       username?: string;
+      email?: string;
       password?: string;
       role?: 'ADMIN' | 'STAFF';
     } = {
       username: body.username,
+      email: body.email,
     };
 
     // Solo asignamos el rol si el usuario es Admin y el rol viene en el body

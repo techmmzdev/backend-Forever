@@ -4,12 +4,14 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '@/users/users.module';
 import { PrismaModule } from '@/config/prisma.module';
+import { MailModule } from '@/mail/mail.module';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
     UsersModule,
     PrismaModule,
+    MailModule,
 
     JwtModule.register({
       secret: process.env.JWT_SECRET,

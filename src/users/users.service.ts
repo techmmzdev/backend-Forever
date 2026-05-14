@@ -1,9 +1,11 @@
 import { PrismaService } from '@/config/prisma.service';
 import {
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from '@generated/prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -57,16 +59,36 @@ export class UsersService {
     id: number,
     data: {
       username?: string;
+      email?: string;
       password?: string;
       role?: 'ADMIN' | 'STAFF';
     },
   ) {
-    const updateData = { ...data };
-
-    return this.prisma.user.update({
-      where: { id },
-      data: updateData, // Usamos la data procesada
-    });
+    try {
+      return await this.prisma.user.update({
+        where: { id },
+        data,
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        const field = (error.meta?.target as string[])?.[0] ?? 'campo';
+        throw new ConflictException(
+          `El ${field === 'username' ? 'nombre de usuario' : 'correo'} ya está en uso`,
+        );
+      }
+      throw error;
+    }
   }
 
   async delete(id: number, currentUserId: number) {

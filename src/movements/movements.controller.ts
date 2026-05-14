@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Request,
 } from '@nestjs/common';
+
 import { MovementsService } from './movements.service';
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { RolesGuard } from '@/auth/roles.guard';

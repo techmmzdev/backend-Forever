@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '@/config/prisma.service';
 
 @Injectable()
@@ -53,7 +57,10 @@ export class MovementsService {
 
     // Si el producto tiene colores y no se especifican, error
     // Si no tiene colores, funciona como antes
-    if (product.colors.length > 0 && (!data.colors || data.colors.length === 0)) {
+    if (
+      product.colors.length > 0 &&
+      (!data.colors || data.colors.length === 0)
+    ) {
       throw new BadRequestException(
         'Este producto tiene colores. Debes especificar la distribución.',
       );
@@ -61,7 +68,10 @@ export class MovementsService {
 
     const movementColors = data.colors;
     if (movementColors && movementColors.length > 0) {
-      return this.createWithColors(product, { ...data, colors: movementColors });
+      return this.createWithColors(product, {
+        ...data,
+        colors: movementColors,
+      });
     }
 
     // ─── Sin colores (comportamiento original) ──────────────
@@ -120,9 +130,9 @@ export class MovementsService {
       // Validar stock suficiente si se va a crear una SALIDA
       if (voidType === 'SALIDA') {
         for (const mc of original.colors) {
-          const colorStock = original.product.colors.find(
-            (pc) => pc.id === mc.productColorId,
-          )?.currentStock ?? 0;
+          const colorStock =
+            original.product.colors.find((pc) => pc.id === mc.productColorId)
+              ?.currentStock ?? 0;
           if (colorStock < mc.quantity) {
             throw new BadRequestException(
               `Stock insuficiente en color "${mc.productColor.name}" para anular esta entrada`,
@@ -230,6 +240,8 @@ export class MovementsService {
     return movement;
   }
 
+
+
   async update(
     id: number,
     data: { observations?: string; receivedBy?: string },
@@ -245,8 +257,12 @@ export class MovementsService {
     return this.prisma.movement.update({
       where: { id },
       data: {
-        ...(data.observations !== undefined ? { observations: data.observations } : {}),
-        ...(data.receivedBy !== undefined ? { receivedBy: data.receivedBy } : {}),
+        ...(data.observations !== undefined
+          ? { observations: data.observations }
+          : {}),
+        ...(data.receivedBy !== undefined
+          ? { receivedBy: data.receivedBy }
+          : {}),
       },
       include: {
         product: true,
@@ -257,7 +273,11 @@ export class MovementsService {
   }
 
   private async createWithColors(
-    product: { id: number; currentStock: number; colors: { id: number; currentStock: number }[] },
+    product: {
+      id: number;
+      currentStock: number;
+      colors: { id: number; currentStock: number }[];
+    },
     data: {
       productId: number;
       userId: number;
@@ -284,14 +304,10 @@ export class MovementsService {
       const qty = input?.quantity ?? 0;
 
       const newStock =
-        data.type === 'INGRESO'
-          ? pc.currentStock + qty
-          : pc.currentStock - qty;
+        data.type === 'INGRESO' ? pc.currentStock + qty : pc.currentStock - qty;
 
       if (newStock < 0) {
-        throw new Error(
-          `Stock insuficiente para el color seleccionado`,
-        );
+        throw new Error(`Stock insuficiente para el color seleccionado`);
       }
 
       return { id: pc.id, newStock };

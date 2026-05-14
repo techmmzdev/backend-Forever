@@ -122,3 +122,16 @@ model RolePermission {
   @@unique([role, permission])
   @@map("role_permissions")
 }
+
+model PasswordResetToken {
+  id        Int       @id @default(autoincrement())
+  email     String
+  token     String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@map("password_reset_tokens")
+}
