@@ -3,7 +3,6 @@ import {
   Head,
   Body,
   Container,
-  Tailwind,
   Text,
   Hr,
   Preview,
@@ -16,79 +15,276 @@ export function PasswordResetConfirmation() {
   return (
     <Html>
       <Head />
-      <Preview>Contraseña actualizada — Forever Kids</Preview>
-      <Tailwind>
-        <Body className="bg-[#0f172a] font-sans">
-          <Container className="mx-auto max-w-[480px] py-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="text-center mb-6">
-                {/* <div className="w-12 h-12 rounded-xl bg-[#6366f1] flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold text-lg">FK</span>
-                </div> */}
-                <Text className="text-2xl font-bold text-[#1e293b] m-0">
-                  Forever Kids
-                </Text>
-                <Text className="text-sm text-[#64748b] m-0 mt-1">
-                  Sistema de Inventario
-                </Text>
-              </div>
 
-              {/* ✅ Ícono check — centrado con tabla para compatibilidad email */}
-              <Section className="text-center mb-5">
-                <Row>
-                  <Column align="center">
-                    <div
+      <Preview>Tu contraseña fue actualizada correctamente</Preview>
+
+      <Body
+        style={{
+          margin: 0,
+          padding: 0,
+          backgroundColor: '#f1f5f9',
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        }}
+      >
+        <Container
+          style={{
+            width: '100%',
+            maxWidth: '520px',
+            margin: '0 auto',
+            padding: '40px 16px',
+          }}
+        >
+          {/* Card */}
+          <Section
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '24px',
+              padding: '40px 32px',
+              border: '1px solid #e2e8f0',
+            }}
+          >
+            {/* Logo / Header */}
+            <Section>
+              <Text
+                style={{
+                  margin: 0,
+                  textAlign: 'center',
+                  fontSize: '30px',
+                  fontWeight: '800',
+                  color: '#0f172a',
+                  lineHeight: '36px',
+                }}
+              >
+                Forever Kids
+              </Text>
+
+              <Text
+                style={{
+                  margin: '8px 0 0 0',
+                  textAlign: 'center',
+                  fontSize: '14px',
+                  color: '#64748b',
+                }}
+              >
+                Sistema de Inventario
+              </Text>
+            </Section>
+
+            {/* Success Icon */}
+            <Section style={{ marginTop: '32px' }}>
+              <Row>
+                <Column align="center">
+                  <div
+                    style={{
+                      width: '64px',
+                      height: '64px',
+                      borderRadius: '999px',
+                      backgroundColor: '#dcfce7',
+                      textAlign: 'center',
+                      lineHeight: '64px',
+                    }}
+                  >
+                    <span
                       style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: '50%',
-                        backgroundColor: '#dcfce7',
-                        display: 'inline-block',
-                        lineHeight: '44px',
-                        textAlign: 'center',
+                        fontSize: '32px',
+                        color: '#16a34a',
+                        fontWeight: '700',
                       }}
                     >
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#16a34a"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ verticalAlign: 'middle' }}
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </div>
-                  </Column>
-                </Row>
-              </Section>
+                      ✓
+                    </span>
+                  </div>
+                </Column>
+              </Row>
+            </Section>
 
-              <Text className="text-lg font-semibold text-[#1e293b] m-0">
-                Contraseña actualizada
+            {/* Title */}
+            <Text
+              style={{
+                margin: '32px 0 0 0',
+                textAlign: 'center',
+                fontSize: '28px',
+                fontWeight: '700',
+                color: '#0f172a',
+                lineHeight: '34px',
+              }}
+            >
+              Contraseña actualizada
+            </Text>
+
+            {/* Description */}
+            <Text
+              style={{
+                margin: '20px 0 0 0',
+                textAlign: 'center',
+                fontSize: '16px',
+                lineHeight: '28px',
+                color: '#475569',
+              }}
+            >
+              La contraseña de tu cuenta en Forever Kids se ha actualizado
+              correctamente.
+            </Text>
+
+            <Text
+              style={{
+                margin: '16px 0 0 0',
+                textAlign: 'center',
+                fontSize: '16px',
+                lineHeight: '28px',
+                color: '#475569',
+              }}
+            >
+              Si realizaste este cambio, no necesitas hacer nada más.
+            </Text>
+
+            {/* Alert Box */}
+            <Section
+              style={{
+                marginTop: '32px',
+                backgroundColor: '#fff7ed',
+                border: '1px solid #fdba74',
+                borderRadius: '16px',
+                padding: '20px',
+              }}
+            >
+              <Text
+                style={{
+                  margin: 0,
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  color: '#9a3412',
+                }}
+              >
+                <strong>¿No fuiste tú?</strong>
               </Text>
 
-              <Text className="text-[#475569] text-sm mt-3 leading-relaxed">
-                La contraseña de tu cuenta en Forever Kids se ha cambiado
-                correctamente.
+              <Text
+                style={{
+                  margin: '8px 0 0 0',
+                  fontSize: '14px',
+                  lineHeight: '24px',
+                  color: '#9a3412',
+                }}
+              >
+                Contacta inmediatamente al administrador del sistema para
+                proteger tu cuenta.
+              </Text>
+            </Section>
+
+            {/* Info Box */}
+            <Section
+              style={{
+                marginTop: '28px',
+                backgroundColor: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '16px',
+                padding: '20px',
+              }}
+            >
+              <Text
+                style={{
+                  margin: 0,
+                  fontSize: '14px',
+                  color: '#334155',
+                  lineHeight: '24px',
+                }}
+              >
+                <strong>Fecha:</strong> 14 de mayo de 2026
               </Text>
 
-              <Text className="text-[#475569] text-sm mt-3 leading-relaxed">
-                Si no realizaste este cambio, contacta al administrador del
-                sistema de inmediato.
+              <Text
+                style={{
+                  margin: '10px 0 0 0',
+                  fontSize: '14px',
+                  color: '#334155',
+                  lineHeight: '24px',
+                }}
+              >
+                <strong>Dispositivo:</strong> Chrome en Windows
               </Text>
 
-              <Hr className="border-[#e2e8f0] my-6" />
-
-              <Text className="text-[#94a3b8] text-xs text-center m-0">
-                Forever Kids — Sistema de Inventario
+              <Text
+                style={{
+                  margin: '10px 0 0 0',
+                  fontSize: '14px',
+                  color: '#334155',
+                  lineHeight: '24px',
+                }}
+              >
+                <strong>Ubicación:</strong> Guadalajara, México
               </Text>
-            </div>
-          </Container>
-        </Body>
-      </Tailwind>
+            </Section>
+
+            {/* Button */}
+            <Section style={{ marginTop: '32px' }}>
+              <Row>
+                <Column align="center">
+                  <a
+                    href="https://foreverkids.com/security"
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      textDecoration: 'none',
+                      padding: '14px 24px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: '600',
+                    }}
+                  >
+                    Revisar actividad reciente
+                  </a>
+                </Column>
+              </Row>
+            </Section>
+
+            <Hr
+              style={{
+                margin: '36px 0',
+                borderColor: '#e2e8f0',
+              }}
+            />
+
+            {/* Footer */}
+            <Text
+              style={{
+                margin: 0,
+                textAlign: 'center',
+                fontSize: '12px',
+                lineHeight: '20px',
+                color: '#94a3b8',
+              }}
+            >
+              Este correo fue enviado automáticamente por Forever Kids.
+            </Text>
+
+            <Text
+              style={{
+                margin: '6px 0 0 0',
+                textAlign: 'center',
+                fontSize: '12px',
+                lineHeight: '20px',
+                color: '#94a3b8',
+              }}
+            >
+              Por seguridad, nunca compartas tus credenciales.
+            </Text>
+
+            <Text
+              style={{
+                margin: '24px 0 0 0',
+                textAlign: 'center',
+                fontSize: '12px',
+                color: '#94a3b8',
+              }}
+            >
+              © 2026 Forever Kids — Todos los derechos reservados
+            </Text>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 }
