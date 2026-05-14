@@ -213,31 +213,8 @@ export function PasswordResetConfirmation() {
                   lineHeight: '24px',
                 }}
               >
-                <strong>Ubicación:</strong> Guadalajara, México
+                <strong>Ubicación:</strong> Perú
               </Text>
-            </Section>
-
-            {/* Button */}
-            <Section style={{ marginTop: '32px' }}>
-              <Row>
-                <Column align="center">
-                  <a
-                    href="https://foreverkids.com/security"
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: '#0f172a',
-                      color: '#ffffff',
-                      textDecoration: 'none',
-                      padding: '14px 24px',
-                      borderRadius: '12px',
-                      fontSize: '15px',
-                      fontWeight: '600',
-                    }}
-                  >
-                    Revisar actividad reciente
-                  </a>
-                </Column>
-              </Row>
             </Section>
 
             <Hr
