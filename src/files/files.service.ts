@@ -55,7 +55,10 @@ export class FilesService {
       const segments = fileUrl.split('/');
       const publicIdIndex = segments.indexOf('forever-kids');
       if (publicIdIndex !== -1) {
-        const publicId = segments.slice(publicIdIndex).join('/').replace(/\.[^.]+$/, '');
+        const publicId = segments
+          .slice(publicIdIndex)
+          .join('/')
+          .replace(/\.[^.]+$/, '');
         cloudinary.uploader.destroy(publicId).catch(() => {});
       }
       return;

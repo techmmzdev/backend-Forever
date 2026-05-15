@@ -42,6 +42,11 @@ export class ProductsController {
     return this.productsService.findAll(includeInactive === 'true');
   }
 
+  @Get('search')
+  search(@Query('q') query: string) {
+    return this.productsService.search(query);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findOne(id);
