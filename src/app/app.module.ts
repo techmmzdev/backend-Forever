@@ -15,6 +15,7 @@ import { FilesModule } from '@/files/files.module';
 import { HealthModule } from '@/health/health.module';
 import { RolesModule } from '@/roles/roles.module';
 import { DashboardModule } from '@/dashboard/dashboard.module';
+import { EventsModule } from '@/events/events.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { DashboardModule } from '@/dashboard/dashboard.module';
     HealthModule,
     RolesModule,
     DashboardModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [

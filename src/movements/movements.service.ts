@@ -4,10 +4,14 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '@/config/prisma.service';
+import { EventsGateway } from '@/events/events.gateway';
 
 @Injectable()
 export class MovementsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private eventsGateway: EventsGateway,
+  ) {}
 
   async findAll() {
     return this.prisma.movement.findMany({
@@ -105,6 +109,7 @@ export class MovementsService {
       }),
     ]);
 
+    this.eventsGateway.emitStockUpdate(data.productId);
     return movement;
   }
 
@@ -119,6 +124,12 @@ export class MovementsService {
 
     if (!original) {
       throw new NotFoundException('Movimiento no encontrado');
+    }
+
+    if (original.voidedAt) {
+      throw new BadRequestException(
+        `El movimiento #${id} ya fue anulado anteriormente`,
+      );
     }
 
     const voidType = original.type === 'INGRESO' ? 'SALIDA' : 'INGRESO';
@@ -176,6 +187,7 @@ export class MovementsService {
             type: voidType,
             quantity: totalQty,
             observations: observation,
+            voidedAt: new Date(),
             colors: {
               create: original.colors.map((mc) => ({
                 productColorId: mc.productColorId,
@@ -199,9 +211,14 @@ export class MovementsService {
           where: { id: product.id },
           data: { currentStock: productNewStock },
         }),
+        this.prisma.movement.update({
+          where: { id: original.id },
+          data: { voidedAt: new Date() },
+        }),
       ];
 
       const [movement] = await this.prisma.$transaction(operations);
+      this.eventsGateway.emitStockUpdate(product.id);
       return movement;
     }
 
@@ -225,6 +242,7 @@ export class MovementsService {
           type: voidType,
           quantity: qty,
           observations: observation,
+          voidedAt: new Date(),
         },
         include: {
           product: true,
@@ -235,12 +253,15 @@ export class MovementsService {
         where: { id: original.productId },
         data: { currentStock: newStock },
       }),
+      this.prisma.movement.update({
+        where: { id: original.id },
+        data: { voidedAt: new Date() },
+      }),
     ]);
 
+    this.eventsGateway.emitStockUpdate(original.productId);
     return movement;
   }
-
-
 
   async update(
     id: number,
@@ -252,6 +273,10 @@ export class MovementsService {
 
     if (!movement) {
       throw new NotFoundException('Movimiento no encontrado');
+    }
+
+    if (movement.voidedAt) {
+      throw new BadRequestException('No se puede editar un movimiento anulado');
     }
 
     return this.prisma.movement.update({
@@ -360,6 +385,7 @@ export class MovementsService {
     ];
 
     const [movement] = await this.prisma.$transaction(operations);
+    this.eventsGateway.emitStockUpdate(data.productId);
     return movement;
   }
 }

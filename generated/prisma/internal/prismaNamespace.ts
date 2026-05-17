@@ -1095,7 +1095,8 @@ export const MovementScalarFieldEnum = {
   quantity: 'quantity',
   observations: 'observations',
   receivedBy: 'receivedBy',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  voidedAt: 'voidedAt'
 } as const
 
 export type MovementScalarFieldEnum = (typeof MovementScalarFieldEnum)[keyof typeof MovementScalarFieldEnum]

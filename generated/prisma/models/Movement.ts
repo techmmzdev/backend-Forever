@@ -49,6 +49,7 @@ export type MovementMinAggregateOutputType = {
   observations: string | null
   receivedBy: string | null
   createdAt: Date | null
+  voidedAt: Date | null
 }
 
 export type MovementMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type MovementMaxAggregateOutputType = {
   observations: string | null
   receivedBy: string | null
   createdAt: Date | null
+  voidedAt: Date | null
 }
 
 export type MovementCountAggregateOutputType = {
@@ -71,6 +73,7 @@ export type MovementCountAggregateOutputType = {
   observations: number
   receivedBy: number
   createdAt: number
+  voidedAt: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type MovementMinAggregateInputType = {
   observations?: true
   receivedBy?: true
   createdAt?: true
+  voidedAt?: true
 }
 
 export type MovementMaxAggregateInputType = {
@@ -109,6 +113,7 @@ export type MovementMaxAggregateInputType = {
   observations?: true
   receivedBy?: true
   createdAt?: true
+  voidedAt?: true
 }
 
 export type MovementCountAggregateInputType = {
@@ -120,6 +125,7 @@ export type MovementCountAggregateInputType = {
   observations?: true
   receivedBy?: true
   createdAt?: true
+  voidedAt?: true
   _all?: true
 }
 
@@ -218,6 +224,7 @@ export type MovementGroupByOutputType = {
   observations: string | null
   receivedBy: string | null
   createdAt: Date
+  voidedAt: Date | null
   _count: MovementCountAggregateOutputType | null
   _avg: MovementAvgAggregateOutputType | null
   _sum: MovementSumAggregateOutputType | null
@@ -252,6 +259,7 @@ export type MovementWhereInput = {
   observations?: Prisma.StringNullableFilter<"Movement"> | string | null
   receivedBy?: Prisma.StringNullableFilter<"Movement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Movement"> | Date | string
+  voidedAt?: Prisma.DateTimeNullableFilter<"Movement"> | Date | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   colors?: Prisma.MovementColorListRelationFilter
@@ -266,6 +274,7 @@ export type MovementOrderByWithRelationInput = {
   observations?: Prisma.SortOrderInput | Prisma.SortOrder
   receivedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   colors?: Prisma.MovementColorOrderByRelationAggregateInput
@@ -283,6 +292,7 @@ export type MovementWhereUniqueInput = Prisma.AtLeast<{
   observations?: Prisma.StringNullableFilter<"Movement"> | string | null
   receivedBy?: Prisma.StringNullableFilter<"Movement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Movement"> | Date | string
+  voidedAt?: Prisma.DateTimeNullableFilter<"Movement"> | Date | string | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   colors?: Prisma.MovementColorListRelationFilter
@@ -297,6 +307,7 @@ export type MovementOrderByWithAggregationInput = {
   observations?: Prisma.SortOrderInput | Prisma.SortOrder
   receivedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MovementCountOrderByAggregateInput
   _avg?: Prisma.MovementAvgOrderByAggregateInput
   _max?: Prisma.MovementMaxOrderByAggregateInput
@@ -316,6 +327,7 @@ export type MovementScalarWhereWithAggregatesInput = {
   observations?: Prisma.StringNullableWithAggregatesFilter<"Movement"> | string | null
   receivedBy?: Prisma.StringNullableWithAggregatesFilter<"Movement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Movement"> | Date | string
+  voidedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Movement"> | Date | string | null
 }
 
 export type MovementCreateInput = {
@@ -324,6 +336,7 @@ export type MovementCreateInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   product: Prisma.ProductCreateNestedOneWithoutMovementsInput
   user: Prisma.UserCreateNestedOneWithoutMovementsInput
   colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
@@ -338,6 +351,7 @@ export type MovementUncheckedCreateInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
@@ -347,6 +361,7 @@ export type MovementUpdateInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
   colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
@@ -361,6 +376,7 @@ export type MovementUncheckedUpdateInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
@@ -373,6 +389,7 @@ export type MovementCreateManyInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
 }
 
 export type MovementUpdateManyMutationInput = {
@@ -381,6 +398,7 @@ export type MovementUpdateManyMutationInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MovementUncheckedUpdateManyInput = {
@@ -392,6 +410,7 @@ export type MovementUncheckedUpdateManyInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MovementListRelationFilter = {
@@ -413,6 +432,7 @@ export type MovementCountOrderByAggregateInput = {
   observations?: Prisma.SortOrder
   receivedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
 }
 
 export type MovementAvgOrderByAggregateInput = {
@@ -431,6 +451,7 @@ export type MovementMaxOrderByAggregateInput = {
   observations?: Prisma.SortOrder
   receivedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
 }
 
 export type MovementMinOrderByAggregateInput = {
@@ -442,6 +463,7 @@ export type MovementMinOrderByAggregateInput = {
   observations?: Prisma.SortOrder
   receivedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
 }
 
 export type MovementSumOrderByAggregateInput = {
@@ -544,6 +566,10 @@ export type EnumMovementTypeFieldUpdateOperationsInput = {
   set?: $Enums.MovementType
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type MovementCreateNestedOneWithoutColorsInput = {
   create?: Prisma.XOR<Prisma.MovementCreateWithoutColorsInput, Prisma.MovementUncheckedCreateWithoutColorsInput>
   connectOrCreate?: Prisma.MovementCreateOrConnectWithoutColorsInput
@@ -564,6 +590,7 @@ export type MovementCreateWithoutUserInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   product: Prisma.ProductCreateNestedOneWithoutMovementsInput
   colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
 }
@@ -576,6 +603,7 @@ export type MovementUncheckedCreateWithoutUserInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
@@ -617,6 +645,7 @@ export type MovementScalarWhereInput = {
   observations?: Prisma.StringNullableFilter<"Movement"> | string | null
   receivedBy?: Prisma.StringNullableFilter<"Movement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Movement"> | Date | string
+  voidedAt?: Prisma.DateTimeNullableFilter<"Movement"> | Date | string | null
 }
 
 export type MovementCreateWithoutProductInput = {
@@ -625,6 +654,7 @@ export type MovementCreateWithoutProductInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutMovementsInput
   colors?: Prisma.MovementColorCreateNestedManyWithoutMovementInput
 }
@@ -637,6 +667,7 @@ export type MovementUncheckedCreateWithoutProductInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   colors?: Prisma.MovementColorUncheckedCreateNestedManyWithoutMovementInput
 }
 
@@ -672,6 +703,7 @@ export type MovementCreateWithoutColorsInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
   product: Prisma.ProductCreateNestedOneWithoutMovementsInput
   user: Prisma.UserCreateNestedOneWithoutMovementsInput
 }
@@ -685,6 +717,7 @@ export type MovementUncheckedCreateWithoutColorsInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
 }
 
 export type MovementCreateOrConnectWithoutColorsInput = {
@@ -709,6 +742,7 @@ export type MovementUpdateWithoutColorsInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
 }
@@ -722,6 +756,7 @@ export type MovementUncheckedUpdateWithoutColorsInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MovementCreateManyUserInput = {
@@ -732,6 +767,7 @@ export type MovementCreateManyUserInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
 }
 
 export type MovementUpdateWithoutUserInput = {
@@ -740,6 +776,7 @@ export type MovementUpdateWithoutUserInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutMovementsNestedInput
   colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
 }
@@ -752,6 +789,7 @@ export type MovementUncheckedUpdateWithoutUserInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
@@ -763,6 +801,7 @@ export type MovementUncheckedUpdateManyWithoutUserInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MovementCreateManyProductInput = {
@@ -773,6 +812,7 @@ export type MovementCreateManyProductInput = {
   observations?: string | null
   receivedBy?: string | null
   createdAt?: Date | string
+  voidedAt?: Date | string | null
 }
 
 export type MovementUpdateWithoutProductInput = {
@@ -781,6 +821,7 @@ export type MovementUpdateWithoutProductInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutMovementsNestedInput
   colors?: Prisma.MovementColorUpdateManyWithoutMovementNestedInput
 }
@@ -793,6 +834,7 @@ export type MovementUncheckedUpdateWithoutProductInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   colors?: Prisma.MovementColorUncheckedUpdateManyWithoutMovementNestedInput
 }
 
@@ -804,6 +846,7 @@ export type MovementUncheckedUpdateManyWithoutProductInput = {
   observations?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receivedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -846,6 +889,7 @@ export type MovementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   observations?: boolean
   receivedBy?: boolean
   createdAt?: boolean
+  voidedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   colors?: boolean | Prisma.Movement$colorsArgs<ExtArgs>
@@ -861,6 +905,7 @@ export type MovementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   observations?: boolean
   receivedBy?: boolean
   createdAt?: boolean
+  voidedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movement"]>
@@ -874,6 +919,7 @@ export type MovementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   observations?: boolean
   receivedBy?: boolean
   createdAt?: boolean
+  voidedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movement"]>
@@ -887,9 +933,10 @@ export type MovementSelectScalar = {
   observations?: boolean
   receivedBy?: boolean
   createdAt?: boolean
+  voidedAt?: boolean
 }
 
-export type MovementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "userId" | "type" | "quantity" | "observations" | "receivedBy" | "createdAt", ExtArgs["result"]["movement"]>
+export type MovementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "userId" | "type" | "quantity" | "observations" | "receivedBy" | "createdAt" | "voidedAt", ExtArgs["result"]["movement"]>
 export type MovementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -921,6 +968,7 @@ export type $MovementPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     observations: string | null
     receivedBy: string | null
     createdAt: Date
+    voidedAt: Date | null
   }, ExtArgs["result"]["movement"]>
   composites: {}
 }
@@ -1355,6 +1403,7 @@ export interface MovementFieldRefs {
   readonly observations: Prisma.FieldRef<"Movement", 'String'>
   readonly receivedBy: Prisma.FieldRef<"Movement", 'String'>
   readonly createdAt: Prisma.FieldRef<"Movement", 'DateTime'>
+  readonly voidedAt: Prisma.FieldRef<"Movement", 'DateTime'>
 }
     
 

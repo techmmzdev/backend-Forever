@@ -6,12 +6,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '@/config/prisma.service';
 import { FilesService } from '@/files/files.service';
+import { EventsGateway } from '@/events/events.gateway';
 
 @Injectable()
 export class ProductsService {
   constructor(
     private prisma: PrismaService,
     private filesService: FilesService,
+    private eventsGateway: EventsGateway,
   ) {}
 
   async findAll(includeInactive?: boolean) {
@@ -77,7 +79,7 @@ export class ProductsService {
       }));
     }
 
-    return this.prisma.product.create({
+    const result = await this.prisma.product.create({
       data: {
         ...productData,
         currentStock: productData.currentStock ?? 0,
@@ -85,6 +87,8 @@ export class ProductsService {
       },
       include: { category: true, colors: true },
     });
+    this.eventsGateway.emitProductChange('created', result.id);
+    return result;
   }
 
   async update(
@@ -205,19 +209,23 @@ export class ProductsService {
           await tx.productColor.createMany({ data: toCreate });
         }
 
-        return tx.product.update({
+        const updated = await tx.product.update({
           where: { id },
           data: cleanData,
           include: { category: true, colors: true },
         });
+        this.eventsGateway.emitProductChange('updated', id);
+        return updated;
       });
     }
 
-    return this.prisma.product.update({
+    const updated = await this.prisma.product.update({
       where: { id },
       data: cleanData,
       include: { category: true, colors: true },
     });
+    this.eventsGateway.emitProductChange('updated', id);
+    return updated;
   }
 
   async updateImage(id: number, imageUrl: string) {
@@ -234,11 +242,13 @@ export class ProductsService {
       this.filesService.removeFile(product.imageUrl);
     }
 
-    return this.prisma.product.update({
+    const imageResult = await this.prisma.product.update({
       where: { id },
       data: { imageUrl },
       include: { category: true, colors: true },
     });
+    this.eventsGateway.emitProductChange('updated', id);
+    return imageResult;
   }
 
   async remove(id: number) {
@@ -251,10 +261,12 @@ export class ProductsService {
     }
 
     // Soft delete (conserva imagen para posible restauración)
-    return this.prisma.product.update({
+    const removed = await this.prisma.product.update({
       where: { id },
       data: { isActive: false },
     });
+    this.eventsGateway.emitProductChange('updated', id);
+    return removed;
   }
 
   async restore(id: number) {
@@ -266,11 +278,13 @@ export class ProductsService {
       throw new NotFoundException('Producto no encontrado');
     }
 
-    return this.prisma.product.update({
+    const restored = await this.prisma.product.update({
       where: { id },
       data: { isActive: true },
       include: { category: true, colors: true },
     });
+    this.eventsGateway.emitProductChange('updated', id);
+    return restored;
   }
 
   // ─── Colores ────────────────────────────────────────────
@@ -300,9 +314,11 @@ export class ProductsService {
       throw new ConflictException('El color ya existe para este producto');
     }
 
-    return this.prisma.productColor.create({
+    const newColor = await this.prisma.productColor.create({
       data: { productId, name: data.name, hexCode: data.hexCode ?? null },
     });
+    this.eventsGateway.emitProductChange('updated', productId);
+    return newColor;
   }
 
   async updateColor(colorId: number, data: { name: string; hexCode?: string }) {
@@ -311,10 +327,12 @@ export class ProductsService {
     });
     if (!color) throw new NotFoundException('Color no encontrado');
 
-    return this.prisma.productColor.update({
+    const updatedColor = await this.prisma.productColor.update({
       where: { id: colorId },
       data: { name: data.name, hexCode: data.hexCode ?? null },
     });
+    this.eventsGateway.emitProductChange('updated', color.productId);
+    return updatedColor;
   }
 
   async removeColor(colorId: number) {
@@ -329,6 +347,8 @@ export class ProductsService {
       );
     }
 
-    return this.prisma.productColor.delete({ where: { id: colorId } });
+    const productId = color.productId;
+    await this.prisma.productColor.delete({ where: { id: colorId } });
+    this.eventsGateway.emitProductChange('updated', productId);
   }
 }

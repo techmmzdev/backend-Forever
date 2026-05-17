@@ -201,16 +201,6 @@ export type EnumMovementTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel> | $Enums.MovementType
 }
 
-export type EnumMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.MovementType | Prisma.EnumMovementTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel> | $Enums.MovementType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
-}
-
 export type DateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -220,6 +210,16 @@ export type DateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type EnumMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MovementType | Prisma.EnumMovementTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel> | $Enums.MovementType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
 }
 
 export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -436,16 +436,6 @@ export type NestedEnumMovementTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel> | $Enums.MovementType
 }
 
-export type NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.MovementType | Prisma.EnumMovementTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel> | $Enums.MovementType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
-}
-
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -455,6 +445,16 @@ export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MovementType | Prisma.EnumMovementTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MovementType[] | Prisma.ListEnumMovementTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMovementTypeWithAggregatesFilter<$PrismaModel> | $Enums.MovementType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMovementTypeFilter<$PrismaModel>
 }
 
 export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
